@@ -12,7 +12,7 @@ Check messages come from headlint and are currently in Japanese.
 - `curl` (used to fetch images)
 
 ```bash
-cargo install --git https://github.com/polidog/headlint
+cargo install --locked --git https://github.com/polidog/headlint --rev dea85036c6b707752f46e2682991fe92b9d9242d
 ```
 
 ## Install
