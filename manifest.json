@@ -1,0 +1,21 @@
+{
+  "schemaVersion": 1,
+  "id": "io.github.polidog.headlint",
+  "name": "headlint",
+  "version": "0.1.0",
+  "author": "polidog",
+  "license": "MIT",
+  "description": "Type a URL in the bar panel and lint its <head> (OGP, favicon, robots) with headlint (github.com/polidog/headlint). Images are rendered inline.",
+  "kinds": ["bar-widget"],
+  "activation": "on-demand",
+  "entryPoints": {
+    "barWidget": "Panel.qml"
+  },
+  "barWidget": {
+    "displayName": "headlint",
+    "description": "URL input in a panel, headlint results with rendered OGP images and favicons.",
+    "category": "Development",
+    "allowMultiple": false,
+    "defaultSection": "right"
+  }
+}
