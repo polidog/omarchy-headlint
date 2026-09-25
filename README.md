@@ -1,8 +1,12 @@
 # omarchy-headlint
 
+![preview](preview.png)
+
 Omarchy のバーから URL を入れて、[headlint](https://github.com/polidog/headlint) で `<head>`（OGP / title / favicon / canonical / robots）を解析するシェルプラグイン。og:image / twitter:image は SNS カード風に、favicon は実寸（上限 64px）でその場に描画します。
 
 ## 必要なもの
+
+- `curl`（画像の取得に使用）
 
 ```bash
 cargo install --git https://github.com/polidog/headlint
@@ -12,7 +16,7 @@ cargo install --git https://github.com/polidog/headlint
 
 ```bash
 omarchy plugin add https://github.com/polidog/omarchy-headlint
-omarchy plugin enable io.github.polidog.headlint --section right
+omarchy plugin enable polidog.headlint --section right
 ```
 
 ## 使い方
@@ -30,9 +34,9 @@ omarchy plugin enable io.github.polidog.headlint --section right
 キーバインドや スクリプトから:
 
 ```bash
-omarchy-shell io.github.polidog.headlint analyze https://polidog.jp
+omarchy-shell polidog.headlint analyze https://polidog.jp
 # クリップボードの URL を解析
-o.bind("SUPER SHIFT, S", "exec", "omarchy-shell io.github.polidog.headlint analyze \"$(wl-paste)\"")
+o.bind("SUPER SHIFT, S", "exec", "omarchy-shell polidog.headlint analyze \"$(wl-paste)\"")
 ```
 
 ## テスト

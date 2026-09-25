@@ -79,9 +79,13 @@ function counts(result) {
   return c
 }
 
+function uniq(list) {
+  return list.filter(function(x, i) { return x && list.indexOf(x) === i })
+}
+
 var MARK = { ok: "✓", warn: "!", ng: "✗", info: "-" }
 function mark(level) { return MARK[level] || "?" }
 
 if (typeof module !== "undefined")
   module.exports = { parse: parse, normalizeUrl: normalizeUrl, firstUrl: firstUrl, stripHint: stripHint,
-                     preview: preview, favicons: favicons, counts: counts, mark: mark }
+                     preview: preview, favicons: favicons, counts: counts, mark: mark, uniq: uniq }

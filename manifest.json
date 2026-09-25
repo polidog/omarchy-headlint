@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "id": "io.github.polidog.headlint",
+  "id": "polidog.headlint",
   "name": "headlint",
   "version": "0.1.0",
   "author": "polidog",

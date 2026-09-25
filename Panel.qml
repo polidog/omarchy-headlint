@@ -8,8 +8,8 @@ import "Model.js" as Model
 
 Panel {
   id: root
-  moduleName: "io.github.polidog.headlint"
-  ipcTarget: "io.github.polidog.headlint"
+  moduleName: "polidog.headlint"
+  ipcTarget: "polidog.headlint"
   manageIpc: false
 
   // Base handler plus `analyze <url>` for keybindings / scripts.
@@ -24,9 +24,17 @@ Panel {
   property var result: null
   property string error: ""
   property string target: ""
+  // Images are fetched with curl into here; Qt's own HTTP/2 client fails on some servers.
+  property string imageDir: ""
 
   readonly property var card: result ? Model.preview(result) : null
   readonly property var icons: result ? Model.favicons(result) : []
+  readonly property var imageUrls: Model.uniq([card ? card.image : ""].concat(icons.map(function(i) { return i.url })))
+
+  function localImage(url) {
+    var i = imageUrls.indexOf(url)
+    return url && i >= 0 && imageDir && !imageProc.running ? "file://" + imageDir + "/" + i : ""
+  }
   readonly property var tally: result ? Model.counts(result) : null
   readonly property color dim: Qt.darker(root.bar.foreground, 1.4)
 
@@ -64,11 +72,18 @@ Panel {
       }
       try {
         root.result = Model.parse(String(out.text || ""))
+        root.imageDir = (Quickshell.env("XDG_RUNTIME_DIR") || "/tmp") + "/omarchy-headlint/" + Date.now()
+        imageProc.running = true
       } catch (e) {
         root.result = null
         root.error = "headlint の出力を読めませんでした: " + e
       }
     }
+  }
+
+  Process {
+    id: imageProc
+    command: ["sh", "-c", "rm -rf \"${1%/*}\"; mkdir -p \"$1\" && cd \"$1\" || exit 1; shift; i=0; for u; do curl -fsL --max-time 15 -o \"$i\" \"$u\" & i=$((i+1)); done; wait", "sh", root.imageDir].concat(root.imageUrls)
   }
 
   WidgetButton {
@@ -172,7 +187,7 @@ Panel {
               Image {
                 id: ogImage
                 anchors.fill: parent
-                source: root.card ? root.card.image : ""
+                source: root.card ? root.localImage(root.card.image) : ""
                 fillMode: Image.PreserveAspectCrop
                 asynchronous: true
                 cache: false
@@ -251,7 +266,7 @@ Panel {
                 Image {
                   id: iconImg
                   anchors.centerIn: parent
-                  source: iconCell.modelData.url
+                  source: root.localImage(iconCell.modelData.url)
                   asynchronous: true
                   cache: false
                   fillMode: Image.PreserveAspectFit
