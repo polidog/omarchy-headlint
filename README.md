@@ -22,6 +22,15 @@ omarchy plugin add https://github.com/polidog/omarchy-headlint
 omarchy plugin enable polidog.headlint --section right
 ```
 
+## Uninstall
+
+```bash
+omarchy plugin disable polidog.headlint
+omarchy plugin remove polidog.headlint
+```
+
+Fetched images live under `$XDG_RUNTIME_DIR/omarchy-headlint/` (tmpfs, cleared on logout). The plugin writes nothing else.
+
 ## Usage
 
 | Action | Result |
