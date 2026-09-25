@@ -2,44 +2,51 @@
 
 ![preview](preview.png)
 
-Omarchy のバーから URL を入れて、[headlint](https://github.com/polidog/headlint) で `<head>`（OGP / title / favicon / canonical / robots）を解析するシェルプラグイン。og:image / twitter:image は SNS カード風に、favicon は実寸（上限 64px）でその場に描画します。
+An [Omarchy](https://omarchy.org/) shell plugin: type a URL into a bar panel and lint its `<head>` (OGP, title, favicon, canonical, robots) with [headlint](https://github.com/polidog/headlint). og:image / twitter:image are rendered as an SNS-style card, and favicons are rendered at their real size (capped at 64px).
 
-## 必要なもの
+Check messages come from headlint and are currently in Japanese.
 
-- `curl`（画像の取得に使用）
+## Requirements
+
+- [headlint](https://github.com/polidog/headlint)
+- `curl` (used to fetch images)
 
 ```bash
 cargo install --git https://github.com/polidog/headlint
 ```
 
-## インストール
+## Install
 
 ```bash
 omarchy plugin add https://github.com/polidog/omarchy-headlint
 omarchy plugin enable polidog.headlint --section right
 ```
 
-## 使い方
+## Usage
 
-| 操作 | 動作 |
-|------|------|
-| アイコン左クリック | パネルを開く（URL 欄にフォーカス） |
-| URL 入力して Enter | 解析（`https://` は省略可） |
-| アイコン右クリック | 直前の URL を再解析 |
-| カードをクリック | ページをブラウザで開く |
-| Esc | 閉じる |
+| Action | Result |
+|--------|--------|
+| Left-click the icon | Open the panel (URL field focused) |
+| Type a URL and press Enter | Analyze (`https://` is optional) |
+| Right-click the icon | Re-analyze the last URL |
+| Click the card | Open the page in your browser |
+| Esc | Close |
 
-✗ が 1 つでもあるとアイコンが強調色になります。
+The icon turns to the urgent color when any check fails (✗).
 
-キーバインドや スクリプトから:
+From scripts:
 
 ```bash
 omarchy-shell polidog.headlint analyze https://polidog.jp
-# クリップボードの URL を解析
+```
+
+Keybinding that analyzes the URL on the clipboard (`~/.config/hypr/bindings.lua`):
+
+```lua
 o.bind("SUPER SHIFT, S", "exec", "omarchy-shell polidog.headlint analyze \"$(wl-paste)\"")
 ```
 
-## テスト
+## Test
 
 ```bash
 node test.js
